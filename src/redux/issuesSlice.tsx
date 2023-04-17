@@ -33,7 +33,9 @@ export const issuesSlice = createSlice({
           draggedIssue = { ...value[1][deletingIssueIndex] };
           value[1].splice(deletingIssueIndex, 1);
         }
+      });
 
+      values.forEach((value) => {
         if (value[0] === issueState) {
           value[1].splice(index, 0, draggedIssue);
         }
@@ -42,6 +44,7 @@ export const issuesSlice = createSlice({
       const issuesData = Object.fromEntries(values);
       state.issues = issuesData as IssuesStates;
     },
+
     setLinks(state, action: PayloadAction<Links>) {
       state.links = { ...action.payload };
     },
