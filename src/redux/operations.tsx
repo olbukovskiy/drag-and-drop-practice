@@ -2,13 +2,14 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppDispatch, RootStore } from "./store";
 import { SearchQueryParts, ResponseType, Issue } from "../types";
 import { vars } from "../vars";
+import { IssuesStates } from "./issuesSlice";
 
 const createAppAsyncThunk = createAsyncThunk.withTypes<{
   state: RootStore;
   dispatch: AppDispatch;
 }>();
 
-export const getAllIssues = createAppAsyncThunk<Issue[], SearchQueryParts>(
+export const getAllIssues = createAppAsyncThunk<IssuesStates, SearchQueryParts>(
   "issues/getAllIssues",
   async ({ owner, repo }, thunkAPI) => {
     try {
@@ -22,7 +23,7 @@ export const getAllIssues = createAppAsyncThunk<Issue[], SearchQueryParts>(
 
       const parsedResponse: Promise<ResponseType[]> = await response.json();
 
-      const data: Issue[] = (await parsedResponse).map(
+      const allData: Issue[] = (await parsedResponse).map(
         ({ id, user: { login }, number, comments, created_at, title }) => {
           return {
             id: id.toString(),
@@ -36,7 +37,11 @@ export const getAllIssues = createAppAsyncThunk<Issue[], SearchQueryParts>(
         }
       );
 
-      return data;
+      const all = allData.filter((item) => item.state === "all");
+      const open = allData.filter((item) => item.state === "open");
+      const closed = allData.filter((item) => item.state === "closed");
+
+      return { all, open, closed };
     } catch (error: any) {
       const message =
         (error.response &&

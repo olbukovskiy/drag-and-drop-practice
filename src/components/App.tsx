@@ -2,7 +2,7 @@ import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import { useAppSelector } from "../hooks/redux-hooks";
-import { selectError, selectIsLoading, selectIssues } from "../redux/selectors";
+import { selectError, selectIsLoading } from "../redux/selectors";
 import { StateKeys } from "../types";
 
 import List from "./List";
@@ -15,7 +15,6 @@ import Loader from "./Loader";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const issues = useAppSelector(selectIssues);
   const isLoading = useAppSelector(selectIsLoading);
   const error = useAppSelector(selectError);
   const stateKeys: StateKeys = ["all", "open", "closed"];
@@ -33,7 +32,7 @@ function App() {
       <SearchBar />
       {!error && <LinksChain />}
       {isLoading && <Loader />}
-      {issues.length > 0 && !error && (
+      {!isLoading && !error && (
         <List
           items={stateKeys}
           renderItem={(item) => <IssuesColumn name={item} key={item} />}

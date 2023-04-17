@@ -1,69 +1,81 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 
 import IssueComponent from "./Issue";
-import { selectIssues, selectLinks } from "../redux/selectors";
+import {
+  selectCurrentIssues,
+  selectIssues,
+  selectLinks,
+} from "../redux/selectors";
 import { changeIssueStatus } from "../redux/issuesSlice";
-import { ChangeData } from "../types";
+import { ChangeData, Issue } from "../types";
+import { RootStore } from "../redux/store";
+import { type } from "os";
 
 type Props = {
   name: string;
 };
 
+type RefData = {
+  index: number;
+  state: string;
+};
+
 const IssuesColumn: React.FunctionComponent<Props> = ({ name }) => {
-  const dropZoneElement = useRef<HTMLUListElement>(null);
-  const issues = useAppSelector(selectIssues);
-  const { repo } = useAppSelector(selectLinks);
-
-  const currentStateIssues = useMemo(() => {
-    const filteredIssues = issues.filter((issue) => issue.state === name);
-    return filteredIssues;
-  }, [issues, name]);
-
   const dispatch = useAppDispatch();
+  const { repo } = useAppSelector(selectLinks);
+  const allIssues = useAppSelector(selectIssues);
+  const currentStateIssues: Issue[] = useAppSelector((state: RootStore) => {
+    return selectCurrentIssues(state, name);
+  });
+  const changeData = useRef<RefData | null>(null);
 
   const dropHandler = (event: React.DragEvent<HTMLUListElement>) => {
     event.preventDefault();
-    const draggableElementData = event.dataTransfer.getData("text/plain");
-    const {
-      id,
-      result,
-      state,
-      whatId,
-    }: ChangeData & { result: number; whatId: string } =
-      JSON.parse(draggableElementData);
-
-    dispatch(changeIssueStatus({ id, state }));
-
-    const targetElem = document.getElementById(id);
-
-    if (result > 0) {
-      targetElem?.insertBefore(
-        document.getElementById(whatId) as HTMLElement,
-        targetElem
-      );
-    }
-    globalThis.localStorage.setItem(`${repo}`, JSON.stringify(issues));
+    const whatId = event.dataTransfer.getData("text");
+    console.log({
+      id: whatId,
+      state: changeData.current?.state as string,
+      index: changeData.current?.index as number,
+    });
+    dispatch(
+      changeIssueStatus({
+        id: whatId,
+        state: changeData.current?.state as string,
+        index: changeData.current?.index as number,
+      })
+    );
+    globalThis.localStorage.setItem(`${repo}`, JSON.stringify(allIssues));
   };
 
   const dragOverHandler = (event: React.DragEvent<HTMLUListElement>) => {
     event.preventDefault();
     const target = event.target as typeof event.target & HTMLElement;
-    const { id: whatId }: ChangeData = JSON.parse(
-      event.dataTransfer.getData("text/plain")
+    let dropElementIndex: number = 0;
+    let result: number;
+    const targetIndex = currentStateIssues.findIndex(
+      (item) => item.id === target.id
     );
 
     if (target.classList.contains("draggable")) {
       const { top, height } = target.getBoundingClientRect();
-      const result = event.clientY - top - height / 2;
-      const data = JSON.stringify({
-        result,
-        id: target.id,
-        state: name,
-        whatId,
-      });
-      event.dataTransfer.setData("text/plain", data);
+      result = event.clientY - top - height / 2;
+
+      if (result > 0) {
+        dropElementIndex = targetIndex + 1;
+      }
+
+      if (result < 0) {
+        dropElementIndex = targetIndex - 1;
+      }
     }
+
+    const dropChangeData = {
+      index: dropElementIndex,
+      state: name,
+    };
+
+    changeData.current = dropChangeData;
   };
 
   return (
@@ -77,7 +89,6 @@ const IssuesColumn: React.FunctionComponent<Props> = ({ name }) => {
       }}
     >
       <ul
-        ref={dropZoneElement}
         onDrop={dropHandler}
         onDragOver={dragOverHandler}
         style={{
@@ -89,7 +100,7 @@ const IssuesColumn: React.FunctionComponent<Props> = ({ name }) => {
           height: "100%",
         }}
       >
-        {currentStateIssues.map((item, index) => (
+        {currentStateIssues.map((item) => (
           <IssueComponent {...item} key={item.id} />
         ))}
       </ul>

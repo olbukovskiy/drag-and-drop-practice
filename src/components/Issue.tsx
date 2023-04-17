@@ -8,14 +8,9 @@ const IssueComponent: React.FunctionComponent<Issue> = ({
   login,
   number,
   title,
-  state,
 }) => {
   const dragStartHandler = (event: React.DragEvent<HTMLLIElement>) => {
-    const issueData = JSON.stringify({
-      id,
-    });
-
-    event.dataTransfer.setData("text/plain", issueData);
+    event.dataTransfer.setData("text", id);
   };
 
   return (

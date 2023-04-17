@@ -30,7 +30,8 @@ export type SearchQueryParts = {
 
 export type ChangeData = {
   id: string;
-  state?: string;
+  state: string;
+  index: number;
 };
 
 export type EventTargetType = {
