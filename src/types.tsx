@@ -6,8 +6,6 @@ export type Issue = {
   state: string;
   created_at: string;
   comments: number;
-  onDragStart?: (event: React.DragEvent<HTMLLIElement>, id: string) => void;
-  onDragEnd?: (id: string) => void;
 };
 
 export type Links = {

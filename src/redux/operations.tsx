@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppDispatch, RootStore } from "./store";
+import { IssuesStates } from "./issuesSlice";
 import { SearchQueryParts, ResponseType, Issue } from "../types";
 import { vars } from "../vars";
-import { IssuesStates } from "./issuesSlice";
 
 const createAppAsyncThunk = createAsyncThunk.withTypes<{
   state: RootStore;

@@ -1,8 +1,8 @@
+import { Container, Row, Col, Form, InputGroup, Button } from "react-bootstrap";
 import { useAppDispatch } from "../hooks/redux-hooks";
-import { setIssues, setLinks } from "../redux/issuesSlice";
+import { setIsShown, setIssues, setLinks } from "../redux/issuesSlice";
 import { getAllIssues } from "../redux/operations";
 import { EventTargetType } from "../types";
-import Container from "./Container";
 
 const SearchBar = () => {
   const dispatch = useAppDispatch();
@@ -30,23 +30,41 @@ const SearchBar = () => {
     }
 
     dispatch(setLinks({ owner: ownerLink, repo: repoLink }));
+    dispatch(setIsShown(true));
   };
   return (
-    <div>
+    <div style={{ padding: "30px 0 5px 0" }}>
       <Container>
-        <form onSubmit={submitHandler}>
-          <label>
-            <p>Find repo issues</p>
-            <input
-              required
-              pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-              type="url"
-              name="searchQuery"
-              placeholder="Enter repo URL"
-            />
-          </label>
-          <button type="submit">Submit</button>
-        </form>
+        <Form onSubmit={submitHandler}>
+          <Row style={{ justifyContent: "center" }}>
+            <Col xs={10}>
+              <Form.Group>
+                <Form.Label htmlFor="basic-url" visuallyHidden>
+                  Find repo issues
+                </Form.Label>
+                <InputGroup className="mb-3">
+                  <Form.Control
+                    id="basic-url"
+                    aria-describedby="basic-addon3"
+                    required
+                    pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+                    name="searchQuery"
+                    placeholder="Enter repo URL. Example: https://github.com/facebook/react"
+                  />
+                </InputGroup>
+              </Form.Group>
+            </Col>
+            <Col xs={2}>
+              <Button
+                type="submit"
+                variant="outline-primary"
+                style={{ width: "100%" }}
+              >
+                Load issues
+              </Button>
+            </Col>
+          </Row>
+        </Form>
       </Container>
     </div>
   );

@@ -1,4 +1,5 @@
 import React from "react";
+import { ListGroup, Col } from "react-bootstrap";
 import { Issue } from "../types";
 
 const IssueComponent: React.FunctionComponent<Issue> = ({
@@ -8,38 +9,30 @@ const IssueComponent: React.FunctionComponent<Issue> = ({
   login,
   number,
   title,
-  onDragEnd,
-  onDragStart,
 }) => {
+  const dragStartHandler = (event: React.DragEvent<HTMLLIElement>) => {
+    event.dataTransfer.setData("text", id);
+  };
+
   return (
-    <li
+    <ListGroup.Item
       id={id}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        height: 200,
-        gap: 5,
-        outline: "1px solid red",
-      }}
+      as="li"
       draggable="true"
-      className="draggable"
-      onDragStart={(event: React.DragEvent<HTMLLIElement>) => {
-        if (typeof onDragStart !== "undefined") {
-          onDragStart(event, id);
-        }
-      }}
-      onDragEnd={() => {
-        if (typeof onDragEnd !== "undefined") {
-          onDragEnd(id);
-        }
-      }}
+      className="draggable my-3 border-1"
+      onDragStart={dragStartHandler}
+      style={{ borderWidth: 1 }}
     >
-      <h2>{title}</h2>
-      <p>#{number}</p>
-      <p>Opened{new Date(created_at).getDay()} days ago</p>
-      <p>{login}</p>
-      <p>Comments: {comments}</p>
-    </li>
+      <Col>
+        <h2 style={{ marginBottom: 10 }}>{title}</h2>
+        <p>#{number}</p>
+        <p>
+          Opened {new Date(created_at).getDay()} day('s) ago by{" "}
+          <span style={{ fontWeight: 600 }}>{login}</span>
+        </p>
+        <p>Comments: {comments}</p>
+      </Col>
+    </ListGroup.Item>
   );
 };
 

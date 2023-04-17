@@ -23,10 +23,13 @@ const selectError = (state: RootStore) => state.issues.error;
 
 const selectLinks = (state: RootStore) => state.issues.links;
 
+const selectIsShown = (state: RootStore) => state.issues.isShown;
+
 export {
   selectError,
   selectIsLoading,
   selectCurrentIssues,
   selectLinks,
   selectIssues,
+  selectIsShown,
 };

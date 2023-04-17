@@ -8,6 +8,7 @@ type IssuesSliceState = {
   issues: IssuesStates;
   links: Links;
   isLoading: boolean;
+  isShown: boolean;
   error: SerializedError | null;
 };
 
@@ -15,6 +16,7 @@ const initialValues: IssuesSliceState = {
   issues: { all: [], open: [], closed: [] },
   links: { owner: "", repo: "" },
   isLoading: false,
+  isShown: false,
   error: null,
 };
 
@@ -52,6 +54,9 @@ export const issuesSlice = createSlice({
       state.issues = action.payload;
       state.error = null;
     },
+    setIsShown(state, action: PayloadAction<boolean>) {
+      state.isShown = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllIssues.fulfilled, (state, action) => {
@@ -73,4 +78,5 @@ export const issuesSlice = createSlice({
   },
 });
 
-export const { changeIssueStatus, setLinks, setIssues } = issuesSlice.actions;
+export const { changeIssueStatus, setLinks, setIssues, setIsShown } =
+  issuesSlice.actions;
