@@ -37,7 +37,7 @@ const SearchBar = () => {
       <Container>
         <Form onSubmit={submitHandler}>
           <Row style={{ justifyContent: "center" }}>
-            <Col xs={10}>
+            <Col xs={9}>
               <Form.Group>
                 <Form.Label htmlFor="basic-url" visuallyHidden>
                   Find repo issues
@@ -54,13 +54,13 @@ const SearchBar = () => {
                 </InputGroup>
               </Form.Group>
             </Col>
-            <Col xs={2}>
+            <Col xs={3}>
               <Button
                 type="submit"
                 variant="outline-primary"
                 style={{ width: "100%" }}
               >
-                Load issues
+                Load
               </Button>
             </Col>
           </Row>
