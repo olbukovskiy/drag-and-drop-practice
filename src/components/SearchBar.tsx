@@ -33,7 +33,7 @@ const SearchBar = () => {
     dispatch(setIsShown(true));
   };
   return (
-    <div style={{ padding: "30px 0 5px 0" }}>
+    <div style={{ padding: "30px 0 5px 0", minWidth: 500 }}>
       <Container>
         <Form onSubmit={submitHandler}>
           <Row style={{ justifyContent: "center" }}>
