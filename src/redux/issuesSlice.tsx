@@ -32,7 +32,7 @@ export const issuesSlice = createSlice({
       values.forEach((value) => {
         const deletingIssueIndex = value[1].findIndex((item) => item.id === id);
         if (deletingIssueIndex !== -1) {
-          draggedIssue = { ...value[1][deletingIssueIndex] };
+          draggedIssue = { ...value[1][deletingIssueIndex], state: issueState };
           value[1].splice(deletingIssueIndex, 1);
         }
       });
