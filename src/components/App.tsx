@@ -46,7 +46,6 @@ function App() {
           renderItem={(item) => <IssuesColumn name={item} key={item} />}
         />
       )}
-
       <ToastContainer />
     </div>
   );

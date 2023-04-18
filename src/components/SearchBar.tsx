@@ -44,6 +44,7 @@ const SearchBar = () => {
                 </Form.Label>
                 <InputGroup className="mb-3">
                   <Form.Control
+                    type="url"
                     id="basic-url"
                     aria-describedby="basic-addon3"
                     required

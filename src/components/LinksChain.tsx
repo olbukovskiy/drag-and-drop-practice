@@ -12,10 +12,10 @@ const LinksChain = () => {
   return (
     <div style={{ padding: "5px 0" }}>
       <Container>
-        <Row sm={6}>
-          <Col sm={1}>
+        <Row sm={4}>
+          <Col style={{ maxWidth: "100%" }}>
             <Button
-              style={{ width: 90 }}
+              style={{ width: "100%" }}
               as="a"
               href={owner}
               variant="outline-primary"
@@ -30,13 +30,14 @@ const LinksChain = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              width: 50,
             }}
           >
             <HiOutlineArrowRight size={24} color="blue" />
           </Col>
-          <Col sm={1}>
+          <Col style={{ maxWidth: "100%" }}>
             <Button
-              style={{ width: 90 }}
+              style={{ width: "100%" }}
               as="a"
               variant="outline-primary"
               href={repo}

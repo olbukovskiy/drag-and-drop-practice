@@ -14,6 +14,10 @@ const IssueComponent: React.FunctionComponent<Issue> = ({
     event.dataTransfer.setData("text", id);
   };
 
+  const calcDateOfCreation = (date: string) => {
+    return new Date(date).getDay();
+  };
+
   return (
     <ListGroup.Item
       id={id}
@@ -27,7 +31,7 @@ const IssueComponent: React.FunctionComponent<Issue> = ({
         <h2 style={{ marginBottom: 10 }}>{title}</h2>
         <p>#{number}</p>
         <p>
-          Opened {new Date(created_at).getDay()} day('s) ago by{" "}
+          Opened {calcDateOfCreation(created_at)} day('s) ago by{" "}
           <span style={{ fontWeight: 600 }}>{login}</span>
         </p>
         <p>Comments: {comments}</p>
