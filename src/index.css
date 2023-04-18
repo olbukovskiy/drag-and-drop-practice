@@ -56,3 +56,7 @@ img {
   flex-direction: column;
   flex: 1 1 auto;
 }
+
+.dragging {
+  opacity: 0.4;
+}

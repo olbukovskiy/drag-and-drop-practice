@@ -11,14 +11,17 @@ const IssueComponent: React.FunctionComponent<Issue> = ({
   title,
 }) => {
   const dragStartHandler = (event: React.DragEvent<HTMLLIElement>) => {
+    document.getElementById(id)?.classList.add("dragging");
     event.dataTransfer.setData("text", id);
+  };
+
+  const dragEndHandle = () => {
+    document.getElementById(id)?.classList.remove("dragging");
   };
 
   const calcDateOfCreation = (date: string) => {
     return new Date(date).getDay();
   };
-
-  const mouseOverHandler = (event: React.DragEvent<HTMLLIElement>) => {};
 
   return (
     <ListGroup.Item
@@ -27,7 +30,12 @@ const IssueComponent: React.FunctionComponent<Issue> = ({
       draggable="true"
       className="draggable my-3 border-1"
       onDragStart={dragStartHandler}
-      style={{ borderWidth: 1, borderRadius: 5 }}
+      onDragEnd={dragEndHandle}
+      style={{
+        borderWidth: 1,
+        borderRadius: 5,
+        boxShadow: "0 8px 24px rgba(0,0,0,.05)",
+      }}
     >
       <Col>
         <h2 style={{ marginBottom: 10 }}>{title}</h2>

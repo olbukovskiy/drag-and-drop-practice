@@ -37,7 +37,7 @@ const IssuesColumn: React.FunctionComponent<Props> = ({ name }) => {
     <ListGroup.Item
       as="li"
       style={{
-        backgroundColor: "#e5e5e5",
+        backgroundColor: "rgb(232, 240, 254)",
         borderRadius: 10,
         padding: 20,
         flexBasis: "calc((100% - 40px) / 3)",
@@ -46,7 +46,7 @@ const IssuesColumn: React.FunctionComponent<Props> = ({ name }) => {
     >
       <h2
         style={{
-          color: "#fff",
+          color: "#000",
           textAlign: "center",
           textTransform: "capitalize",
         }}
