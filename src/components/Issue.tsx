@@ -18,6 +18,8 @@ const IssueComponent: React.FunctionComponent<Issue> = ({
     return new Date(date).getDay();
   };
 
+  const mouseOverHandler = (event: React.DragEvent<HTMLLIElement>) => {};
+
   return (
     <ListGroup.Item
       id={id}
@@ -25,7 +27,7 @@ const IssueComponent: React.FunctionComponent<Issue> = ({
       draggable="true"
       className="draggable my-3 border-1"
       onDragStart={dragStartHandler}
-      style={{ borderWidth: 1 }}
+      style={{ borderWidth: 1, borderRadius: 5 }}
     >
       <Col>
         <h2 style={{ marginBottom: 10 }}>{title}</h2>

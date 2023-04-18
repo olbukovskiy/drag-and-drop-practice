@@ -37,11 +37,22 @@ const IssuesColumn: React.FunctionComponent<Props> = ({ name }) => {
     <ListGroup.Item
       as="li"
       style={{
+        backgroundColor: "#e5e5e5",
+        borderRadius: 10,
         padding: 20,
         flexBasis: "calc((100% - 40px) / 3)",
         borderWidth: 2,
       }}
     >
+      <h2
+        style={{
+          color: "#fff",
+          textAlign: "center",
+          textTransform: "capitalize",
+        }}
+      >
+        {name}
+      </h2>
       <ListGroup
         as="ul"
         data-name={name}
